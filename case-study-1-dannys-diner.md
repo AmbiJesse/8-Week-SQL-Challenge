@@ -12,7 +12,7 @@ Danny wants to use the data to answer a few simple questions about his customers
 ### Entity Relationship Diagram (ERD)
 <img width="702" alt="Screenshot 2024-02-09 at 10 01 30 PM" src="https://github.com/AmbiJesse/8-Week-SQL-Challenge/assets/21045393/c4345af6-8893-4785-ba96-e7d9faa9587a">
 
-### Solutions
+## Solutions
 There are 10 questions to be answers and solved using SQL.
 
 **1. What is the total amount each customer spent at the restaurant?**
@@ -35,8 +35,20 @@ Result:
 ---
 2. How many days has each customer visited the restaurant?
 ```SQL
-select
+select customer_id, count(distinct order_date) as visit_count
+from dannys_diner.sales
+group by customer_id
+order by visit_count desc;
 ```
+Result:
+| customer_id | visit_count |
+| ----------- | ----------- |
+| B | 6 |
+| A | 4 |
+| C | 2 |
+
+- Utilized `distinct` to avoid duplicates of multiple orders made on the same day.
+- Ordered results in descending order to see customers who visit the most, first.
 ---
 3. What was the first item from the menu purchased by each customer?
 ```SQL
