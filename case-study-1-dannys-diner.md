@@ -14,7 +14,8 @@ Danny wants to use the data to answer a few simple questions about his customers
 
 ### Solutions
 There are 10 questions to be answers and solved using SQL.
-1. What is the total amount each customer spent at the restaurant?
+
+**1. What is the total amount each customer spent at the restaurant?**
 ```SQL
 select customer_id, sum(price) as total_spent
 from dannys_diner.sales as s
@@ -23,6 +24,14 @@ inner join dannys_diner.menu as m
 group by customer_id
 order by total_spent desc;
 ```
+Result:
+| customer_id | total_spent |
+| ----------- | ----------- |
+| A | 76 |
+| B | 74 |
+| C | 36 |
+
+- Customer A spent the most at $76, Customer B spent $74 and Customer C spent $36.
 ---
 2. How many days has each customer visited the restaurant?
 ```SQL
