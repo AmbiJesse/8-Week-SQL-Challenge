@@ -16,7 +16,12 @@ Danny wants to use the data to answer a few simple questions about his customers
 There are 10 questions to be answers and solved using SQL.
 1. What is the total amount each customer spent at the restaurant?
 ```SQL
-select
+select customer_id, sum(price) as total_spent
+from dannys_diner.sales as s
+inner join dannys_diner.menu as m
+  using(product_id)
+group by customer_id
+order by total_spent desc;
 ```
 ---
 2. How many days has each customer visited the restaurant?
@@ -60,3 +65,7 @@ select
 ```
 ---
 10. In the first week after a customer joins the program (including their join date) they earn 2x points on all items, not just sushi - how many points do customer A and B have at the end of January?
+```SQL
+select
+```
+---
