@@ -1,4 +1,4 @@
-# 8 Week SQL Challenge
+# 8-Week SQL Challenge
 Danny Ma's [8 Week SQL Challenge](https://8weeksqlchallenge.com/) includes 8 case studies in health analytics, marketing analytics, people analytics, financial markets, consumer goods, and digital marketing.
 
 ### Topics Required to Solve Problems: 
