@@ -13,7 +13,7 @@ Danny wants to use the data to answer a few simple questions about his customers
 <img width="702" alt="Screenshot 2024-02-09 at 10 01 30 PM" src="https://github.com/AmbiJesse/8-Week-SQL-Challenge/assets/21045393/c4345af6-8893-4785-ba96-e7d9faa9587a">
 
 ## Solutions
-There are 10 questions to be answers and solved using SQL.
+There are 10 questions to be answered and solved using SQL.
 
 **1. What is the total amount each customer spent at the restaurant?**
 ```SQL
@@ -33,7 +33,7 @@ Result:
 
 - Customer A spent the most at $76, Customer B spent $74 and Customer C spent $36.
 ---
-2. How many days has each customer visited the restaurant?
+**2. How many days has each customer visited the restaurant?**
 ```SQL
 select customer_id, count(distinct order_date) as visit_count
 from dannys_diner.sales
@@ -50,7 +50,7 @@ Result:
 - Utilized `distinct` to avoid duplicates of multiple orders made on the same day.
 - Ordered results in descending order to see customers who visit the most, first.
 ---
-3. What was the first item from the menu purchased by each customer?
+**3. What was the first item from the menu purchased by each customer?**
 ```SQL
 select
 ```
