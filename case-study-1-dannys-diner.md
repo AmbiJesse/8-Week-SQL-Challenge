@@ -20,7 +20,7 @@ There are 10 questions to be answered and solved using SQL.
 select customer_id, sum(price) as total_spent
 from dannys_diner.sales as s
 inner join dannys_diner.menu as m
-  using(product_id)
+    using(product_id)
 group by customer_id
 order by total_spent desc;
 ```
@@ -52,13 +52,52 @@ Result:
 ---
 **3. What was the first item from the menu purchased by each customer?**
 ```SQL
+with order_sequence as (
+    select
+        customer_id,
+        order_date,
+        product_name,
+        dense_rank() over(partition by customer_id
+                          order by order_date) as rank
+    from dannys_diner.sales
+    inner join dannys_diner.menu using(product_id)
+)
 select
+    customer_id,
+    product_name as first_item_ordered
+from order_sequence
+where rank = 1
+group by customer_id, product_name
+order by customer_id;
 ```
+Result:
+| customer_id | first_item_ordered |
+| ----------- | ----------- |
+| A | curry |
+| A | sushi |
+| B | curry |
+| C | ramen |
+
+- Used a Common Table Expression (CTE) named `order_sequence` to `rank` the order_dates sequentially to filter for the first orders made.
+- With data limitations of context for orders made on the same day, `dense_rank` is used to categorize both items purchased for Customer A as their first item(s) ordered. The data states that Customer A ordered curry and sushi on `2021-01-01`.
 ---
-4. What is the most purchased item on the menu and how many times was it purchased by all customers?
+**4. What is the most purchased item on the menu and how many times was it purchased by all customers?**
 ```SQL
 select
+    product_name,
+    count(s.product_id) as order_count
+from dannys_diner.sales as s
+inner join dannys_diner.menu as m using(product_id)
+group by product_name
+order by order_count desc
+limit 1;
 ```
+Result:
+| product_name | order_count |
+| ----------- | ----------- |
+| ramen | 8 |
+
+- Used `count` to aggregate the number of `product_id`s present in every sale, grouped by the menu item name, and ordered by the `order_count` to find that ramen was ordered by all the customers eight times.
 ---
 5. Which item was the most popular for each customer?
 ```SQL
