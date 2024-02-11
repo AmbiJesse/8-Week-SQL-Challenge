@@ -99,12 +99,38 @@ Result:
 
 - Used `count` to aggregate the number of `product_id`s present in every sale, grouped by the menu item name, and ordered by the `order_count` to find that ramen was ordered by all the customers eight times.
 ---
-5. Which item was the most popular for each customer?
+**5. Which item was the most popular for each customer?**
 ```SQL
+with ranked_orders as (
+    select
+        customer_id,
+        product_name,
+        count(s.product_id) as order_count,
+        dense_rank() over (partition by customer_id
+                           order by count(s.product_id) desc) as rank
+    from dannys_diner.sales as s
+    inner join dannys_diner.menu as m using(product_id)
+    group by customer_id, product_name
+)
 select
+    customer_id,
+    product_name,
+    order_count
+from ranked_orders
+where rank = 1;
 ```
+Result:
+| customer_id | product_name | order_count |
+| ----------- | ----------- | -- |
+| A | ramen | 3 |
+| B | sushi | 2 |
+| B | curry | 2 |
+| B | ramen | 2 |
+| C | ramen | 3 |
+
+- Used the same structure as question #3 with a Common Table Expression to rank the most ordered items with `dense_rank` which displays multiple items for Customer B. Other methods are available such as `row_number` but that would simply take the first item as being Customer B's favorite item to order.
 ---
-6. Which item was purchased first by the customer after they became a member?
+**6. Which item was purchased first by the customer after they became a member?**
 ```SQL
 select
 ```
