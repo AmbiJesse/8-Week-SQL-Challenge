@@ -165,18 +165,81 @@ Result:
 ---
 **7. Which item was purchased just before the customer became a member?**
 ```SQL
+with pre_memb_orders as (
+    select
+        s.customer_id,
+        join_date,
+        order_date,
+        s.product_id,
+        product_name,
+        row_number() over (partition by s.customer_id
+                           order by order_date desc) as rank
+    from dannys_diner.sales as s
+    inner join dannys_diner.members as mb using(customer_id)
+    inner join dannys_diner.menu as mn using(product_id)
+    where order_date < join_date
+)
 select
+    customer_id as customer,
+    order_date as last_order,
+    join_date as joined,
+    product_name as menu_item
+from pre_memb_orders
+where rank = 1;
 ```
+Result:
+| customer | last_order | joined | menu_item |
+| ----------- | ----------- | -- | -- |
+| A | 2021-01-01 | 2021-01-07 | sushi |
+| A | 2021-01-01 | 2021-01-07 | curry |
+| B | 2021-01-04 | 2021-01-09 | sushi |
+
+- Similar to question #7's solution, the difference made is to filter for `order_date`s before the `join_date` and to order the ranking function descending to show most recent purchases prior to becoming a member first.
+- `dense_rank` is used once again with regards to lack of context of an "order logged" in this database to what is the actual order of orders placed.
 ---
 **8. What is the total items and amount spent for each member before they became a member?**
 ```SQL
 select
+    s.customer_id,
+    count(s.product_id) as items_purchased,
+    sum(price) as total_spent
+    
+
+from dannys_diner.sales as s
+inner join dannys_diner.members as mb using(customer_id)
+inner join dannys_diner.menu as mn using(product_id)
+where order_date < join_date
+group by customer_id
+order by customer_id;
 ```
+Result:
+| customer_id | items_purchased | total_spent | 
+| ----------- | ----------- | -- |
+| A | 2 | 25 |
+| B | 3 | 40 |
+
+- Filtered all tables for orders made before the `join_date` and used aggreate functions to calculate the total items purchased and total spent before customers A and B became members. Ordered by `customer_id`.
 ---
 **9. If each $1 spent equates to 10 points and sushi has a 2x points multiplier - how many points would each customer have?**
 ```SQL
 select
+    customer_id,
+    sum(case when s.product_id = 1 then price * 20
+        else price * 10 end) as total_points
+
+from dannys_diner.sales as s
+inner join dannys_diner.menu as m using(product_id)
+group by s.customer_id
+order by s.customer_id;
 ```
+Result:
+| customer_id | total_points |
+| ----------- | ----------- |
+| A | 860 |
+| B | 940 |
+| C | 360 |
+
+- Used `case when` to distinguish between regular points and 2x points for sushi.
 ---
 **10. In the first week after a customer joins the program (including their join date) they earn 2x points on all items, not just sushi - how many points do customer A and B have at the end of January?**
 ```SQL
