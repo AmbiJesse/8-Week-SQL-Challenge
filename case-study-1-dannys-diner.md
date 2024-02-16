@@ -79,7 +79,7 @@ Result:
 | C | ramen |
 
 - Used a Common Table Expression (CTE) named `order_sequence` to `rank` the order_dates sequentially to filter for the first orders made.
-- With data limitations of context for orders made on the same day, `dense_rank` is used to categorize both items purchased for Customer A as their first item(s) ordered. The data states that Customer A ordered curry and sushi on `2021-01-01`.
+- With data limitations of context for orders made on the same day, `dense_rank` is used to categorize both items purchased for Customer A as their first item(s) ordered. The data states that Customer A ordered both curry and sushi on `2021-01-01`.
 ---
 **4. What is the most purchased item on the menu and how many times was it purchased by all customers?**
 ```SQL
@@ -132,8 +132,36 @@ Result:
 ---
 **6. Which item was purchased first by the customer after they became a member?**
 ```SQL
+with memb_orders as (
+    select
+        s.customer_id,
+        join_date,
+        order_date,
+        s.product_id,
+        product_name,
+        row_number() over (partition by s.customer_id
+                           order by order_date) as rank
+    from dannys_diner.sales as s
+    inner join dannys_diner.members as mb using(customer_id)
+    inner join dannys_diner.menu as mn using(product_id)
+    where order_date >= join_date
+)
 select
+    customer_id as customer,
+    join_date as joined,
+    order_date as first_order,
+    product_name as menu_item
+from memb_orders
+where rank = 1;
 ```
+Result:
+| customer | joined | first_order | menu_item |
+| ----------- | ----------- | -- | -- |
+| A | 2021-01-07 | 2021-01-07 | curry |
+| B | 2021-01-09 | 2021-01-11 | sushi |
+
+- The discrepancy to address here is that there is no distinction between `join_date` time to understand if order was placed before or after the customer joined that day. As logged as `join_date` and `order_date`, the items should be understood simultaneously which places the order of Customer A as 'curry' and not using a hard 'after' they joined.
+
 ---
 **7. Which item was purchased just before the customer became a member?**
 ```SQL
