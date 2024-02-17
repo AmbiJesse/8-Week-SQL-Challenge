@@ -246,3 +246,14 @@ Result:
 select
 ```
 ---
+## Bonus Questions
+
+**Join All The Things**
+```SQL
+select
+```
+
+**Rank All The Things**
+```SQL
+select
+```
