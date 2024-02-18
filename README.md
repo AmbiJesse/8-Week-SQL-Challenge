@@ -9,6 +9,7 @@ I started the 8-Week SQL Challenge on Friday, February 9, 2024.
 ## Case Study Solutions
 To solve the case study problems, I set up and used my own PostgreSQL server to host the tables provided in each challenge. Each case study solution can be found here:
 - [Case Study #1: Danny's Diner](https://github.com/AmbiJesse/8-Week-SQL-Challenge/blob/main/case-study-1-dannys-diner.md)
+- [Case Study #2: Pizza Runner](https://github.com/AmbiJesse/8-Week-SQL-Challenge/blob/main/case-study-2-pizza-runner.md)
 
 ## Topics Required to Solve Problems:
 - SQL Basics (filters, ordering data, group by aggregates)
