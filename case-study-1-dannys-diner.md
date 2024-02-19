@@ -1,6 +1,13 @@
 # Case Study #1: Danny's Diner
 <img width='500' src= "https://8weeksqlchallenge.com/images/case-study-designs/1.png">
 
+```
+- Common Table Expressions
+- Group by Aggregates
+- Window Functions for Ranking
+- Table Joins
+```
+
 ## Table of Contents
 - [Problem Statement](https://github.com/AmbiJesse/8-Week-SQL-Challenge/edit/main/case-study-1-dannys-diner.md#problem-statement)
 - [Entity Relationship Diagram](https://github.com/AmbiJesse/8-Week-SQL-Challenge/edit/main/case-study-1-dannys-diner.md#entity-relationship-diagram-erd)
