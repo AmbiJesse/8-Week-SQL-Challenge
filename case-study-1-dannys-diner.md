@@ -243,8 +243,42 @@ Result:
 ---
 **10. In the first week after a customer joins the program (including their join date) they earn 2x points on all items, not just sushi - how many points do customer A and B have at the end of January?**
 ```SQL
+with customer_points as (
+    select
+        s.customer_id,
+        join_date,
+        join_date + interval '7 days' as first_week_end,
+        s.product_id,
+        m.product_name,
+        m.price,
+        s.order_date,
+        case when order_date between join_date and join_date + interval '7 days' then 20 * price
+             when s.product_id = 1 then 20 * price
+             else 10 * price end as points
+
+    from dannys_diner.members
+    join dannys_diner.sales as s on members.customer_id = s.customer_id
+    join dannys_diner.menu as m on s.product_id = m.product_id
+    
+    where s.customer_id in ('A', 'B')
+        and order_date <= '2021-01-31'
+)
+
 select
+    customer_id,
+    sum(points) as total_points
+from customer_points
+group by customer_id;
 ```
+Result:
+| customer_id | total_points |
+| ----------- | ----------- |
+| A | 1370 |
+| B | 940 |
+
+- Used `interval` to establish the first week of membership and used `case when` to categorize point distributions of 2x point multipliers for sushi purchases and first week membership weeks.
+- Filtered for all orders made before January 31st.
+- The only 'future-oriented' discrepancy present would be the filter for the two membership ids of customer A and customer B.
 ---
 ## Bonus Questions
 
