@@ -1,11 +1,6 @@
 # 8-Week SQL Challenge
 Danny Ma's [8-Week SQL Challenge](https://8weeksqlchallenge.com/) includes 8 case studies in health analytics, marketing analytics, people analytics, financial markets, consumer goods, and digital marketing.
 
-## Notes
-```
-I started the 8-Week SQL Challenge on Friday, February 9, 2024.
-```
-
 ## Case Study Solutions
 To solve the case study problems, I set up and used my own PostgreSQL server to host the tables provided in each challenge. Each case study solution can be found here:
 - [Case Study #1: Danny's Diner](https://github.com/AmbiJesse/8-Week-SQL-Challenge/blob/main/case-study-1-dannys-diner.md)
