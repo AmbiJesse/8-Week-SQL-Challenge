@@ -45,7 +45,7 @@ This case study is broken up by area of focus including:
 ---
 **1. How many pizzas were ordered?**
 ```SQL
-select
+select 
 ```
 Result:
 
