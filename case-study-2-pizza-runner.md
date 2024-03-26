@@ -48,7 +48,6 @@ This case study is broken up by area of focus including:
 select 
 ```
 Result:
-
 ---
 **2. How many unique customer orders were made?**
 ```SQL
