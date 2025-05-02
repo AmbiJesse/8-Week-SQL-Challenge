@@ -1,5 +1,5 @@
-# Case Study #1: Danny's Diner
-<img width='500' src= "https://8weeksqlchallenge.com/images/case-study-designs/1.png">
+# Case Study #7: Balanced Tree Clothing Co.
+<img width='500' src= "https://8weeksqlchallenge.com/images/case-study-designs/7.png">
 
 ```
 - Common Table Expressions
